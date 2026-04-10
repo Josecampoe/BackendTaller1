@@ -8,21 +8,23 @@ public class Appointment {
     private String doctorName;
     private String specialty;
     private String date;
+    private String time;
     private String status;
     private String reminder;
 
     public Appointment() {}
 
     public Appointment(String id, String patientId, String doctorId, String doctorName,
-                       String specialty, String date) {
+                       String specialty, String date, String time) {
         this.id = id;
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.doctorName = doctorName;
         this.specialty = specialty;
         this.date = date;
+        this.time = time;
         this.status = "ACTIVE";
-        this.reminder = "Remember to arrive 15 minutes before your appointment on " + date;
+        this.reminder = "Remember to arrive 15 minutes before your appointment on " + date + " at " + time;
     }
 
     public String getId() { return id; }
@@ -42,6 +44,9 @@ public class Appointment {
 
     public String getDate() { return date; }
     public void setDate(String date) { this.date = date; }
+
+    public String getTime() { return time; }
+    public void setTime(String time) { this.time = time; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
