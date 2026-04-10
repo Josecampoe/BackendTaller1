@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/clinica")
+@RequestMapping("/api/clinic")
 public class ClinicaController {
 
     private final ClinicaFacade facade;
@@ -18,30 +18,30 @@ public class ClinicaController {
         this.facade = facade;
     }
 
-    // POST /api/clinica/paciente
-    @PostMapping("/paciente")
+    // POST /api/clinic/patient
+    @PostMapping("/patient")
     public ResponseEntity<?> registerPatient(@RequestBody PatientRequest request) {
         return ResponseEntity.ok(
                 facade.registerPatient(request.getName(), request.getDocument(), request.getEmail())
         );
     }
 
-    // POST /api/clinica/cita
-    @PostMapping("/cita")
+    // POST /api/clinic/appointment
+    @PostMapping("/appointment")
     public ResponseEntity<?> scheduleAppointment(@RequestBody AppointmentRequest request) {
         return ResponseEntity.ok(
                 facade.scheduleAppointment(request.getPatientId(), request.getSpecialty(), request.getDate())
         );
     }
 
-    // GET /api/clinica/historia/{pacienteId}
-    @GetMapping("/historia/{pacienteId}")
-    public ResponseEntity<Map<String, Object>> getHistory(@PathVariable String pacienteId) {
-        return ResponseEntity.ok(facade.getCompleteHistory(pacienteId));
+    // GET /api/clinic/history/{patientId}
+    @GetMapping("/history/{patientId}")
+    public ResponseEntity<Map<String, Object>> getHistory(@PathVariable String patientId) {
+        return ResponseEntity.ok(facade.getCompleteHistory(patientId));
     }
 
-    // POST /api/clinica/prescripcion
-    @PostMapping("/prescripcion")
+    // POST /api/clinic/prescription
+    @PostMapping("/prescription")
     public ResponseEntity<?> generatePrescription(@RequestBody PrescriptionRequest request) {
         return ResponseEntity.ok(
                 facade.generatePrescription(request.getPatientId(), request.getMedications(),
@@ -49,21 +49,21 @@ public class ClinicaController {
         );
     }
 
-    // POST /api/clinica/laboratorio
-    @PostMapping("/laboratorio")
+    // POST /api/clinic/laboratory
+    @PostMapping("/laboratory")
     public ResponseEntity<?> requestExams(@RequestBody LabRequest request) {
         return ResponseEntity.ok(
                 facade.requestExams(request.getPatientId(), request.getExams())
         );
     }
 
-    // GET /api/clinica/medicos?especialidad=
-    @GetMapping("/medicos")
-    public ResponseEntity<List<String>> getDoctors(@RequestParam String especialidad) {
-        return ResponseEntity.ok(facade.getDoctorsBySpecialty(especialidad));
+    // GET /api/clinic/doctors?specialty=
+    @GetMapping("/doctors")
+    public ResponseEntity<List<String>> getDoctors(@RequestParam String specialty) {
+        return ResponseEntity.ok(facade.getDoctorsBySpecialty(specialty));
     }
 
-    // Manejo global de errores
+    // Global error handler
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleError(RuntimeException ex) {
         return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
