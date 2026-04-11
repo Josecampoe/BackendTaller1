@@ -1,11 +1,16 @@
 package com.clinica.medical_system.service;
 
-import com.clinica.medical_system.model.Appointment;
-import com.clinica.medical_system.model.Doctor;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import com.clinica.medical_system.model.Appointment;
+import com.clinica.medical_system.model.Doctor;
 
 @Service
 public class ScheduleService {
@@ -31,7 +36,7 @@ public class ScheduleService {
         return doctors;
     }
 
-    public Appointment scheduleAppointment(String patientId, String doctorId, String date) {
+    public Appointment scheduleAppointment(String patientId, String doctorId, String date, String time) {
         Doctor doctor = doctors.stream()
                 .filter(d -> d.getId().equals(doctorId))
                 .findFirst()
@@ -39,7 +44,7 @@ public class ScheduleService {
 
         String appointmentId = "APT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         Appointment appointment = new Appointment(appointmentId, patientId, doctorId, doctor.getName(),
-                doctor.getSpecialty(), date);
+                doctor.getSpecialty(), date, time);
         appointments.put(appointmentId, appointment);
         return appointment;
     }
